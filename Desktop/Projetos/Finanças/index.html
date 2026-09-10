@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard de Gastos Mensais</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="dashboard-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Controle mensal</p>
+          <h1>Dashboard Financeiro</h1>
+          <p class="month-label" id="current-month">Maio 2026</p>
+        </div>
+        <div class="toolbar" aria-label="Controles do dashboard">
+          <label class="select-wrap">
+            <span>Mês</span>
+            <input id="month-select" type="month" aria-label="Mês do resumo" />
+          </label>
+          <button class="icon-button" id="download-button" type="button" aria-label="Baixar resumo" title="Baixar resumo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="summary-grid" aria-label="Resumo financeiro">
+        <article class="summary-card accent-green">
+          <span>Saldo livre</span>
+          <strong id="free-balance">R$ 0</strong>
+          <small id="balance-trend"></small>
+        </article>
+        <article class="summary-card accent-blue">
+          <span>Receita</span>
+          <strong id="income-total">R$ 0</strong>
+          <small id="income-trend"></small>
+        </article>
+        <article class="summary-card accent-red">
+          <span>Gastos</span>
+          <strong id="expense-total">R$ 0</strong>
+          <small id="expense-trend"></small>
+        </article>
+        <article class="summary-card accent-yellow budget-card" id="budget-card" tabindex="0" role="button" aria-label="Definir meta mensal">
+          <span>Meta do mês</span>
+          <strong class="budget-display">
+            <span>R$</span>
+            <input id="budget-input" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0" aria-label="Valor da meta mensal" />
+          </strong>
+          <small id="budget-trend"></small>
+        </article>
+      </section>
+
+      <section class="panel entry-panel" aria-label="Adicionar transação">
+        <div class="panel-head slim">
+          <div>
+            <p class="eyebrow">Novo lançamento</p>
+            <h2>Adicionar transação</h2>
+          </div>
+          <span class="save-status" id="save-status">Salvo localmente</span>
+        </div>
+        <form class="transaction-form" id="transaction-form">
+          <label>
+            <span>Nome</span>
+            <input id="transaction-name" type="text" placeholder="Ex: Mercado" required />
+          </label>
+          <label>
+            <span>Data</span>
+            <input id="transaction-date" type="date" required />
+          </label>
+          <label>
+            <span>Tipo</span>
+            <select id="transaction-type">
+              <option value="expense">Despesa</option>
+              <option value="income">Receita</option>
+            </select>
+          </label>
+          <label>
+            <span>Categoria</span>
+            <select id="transaction-category"></select>
+          </label>
+          <label>
+            <span>Valor</span>
+            <input id="transaction-amount" type="number" min="0.01" step="0.01" placeholder="0,00" required />
+          </label>
+          <button class="primary-button" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Adicionar
+          </button>
+        </form>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Gastos por data</p>
+              <h2 id="chart-title">Maio 2026</h2>
+            </div>
+            <div class="selected-day" id="selected-day">
+              <span>Hoje</span>
+              <strong>R$ 0</strong>
+            </div>
+          </div>
+          <div class="chart-area">
+            <div class="y-axis" aria-hidden="true">
+              <span id="axis-max">R$ 0</span>
+              <span id="axis-mid">R$ 0</span>
+              <span>R$ 0</span>
+            </div>
+            <div class="bar-chart" id="bar-chart" role="list" aria-label="Gastos diários do mês"></div>
+          </div>
+        </article>
+
+        <aside class="panel transactions-panel">
+          <div class="panel-head slim">
+            <div>
+              <p class="eyebrow">Detalhes</p>
+            <h2>Transações do mês</h2>
+            </div>
+            <span class="count-pill" id="transaction-count">0</span>
+          </div>
+          <div class="transaction-list" id="transaction-list"></div>
+        </aside>
+      </section>
+
+      <section class="panel category-panel">
+        <div class="panel-head slim">
+          <div>
+            <p class="eyebrow">Categorias</p>
+            <h2>Distribuição dos gastos</h2>
+          </div>
+          <strong id="top-category">-</strong>
+        </div>
+        <div class="category-grid" id="category-grid"></div>
+      </section>
+    </main>
+
+    <template id="bar-template">
+      <button class="bar-button" type="button">
+        <span class="bar-value"></span>
+        <span class="bar-fill"></span>
+        <span class="bar-date"></span>
+      </button>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
